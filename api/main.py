@@ -1,6 +1,9 @@
 from fastapi import FastAPI
 
-app = FastAPI()
+app = FastAPI(
+    title="API made with FastAPI",
+    version="0.1.0",
+)
 
 
 @app.get("/", status_code=200)
