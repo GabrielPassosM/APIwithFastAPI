@@ -7,35 +7,35 @@ app = FastAPI(
 
 
 @app.get("/", status_code=200)
-def read_root():
+async def read_root():
     return {"Hello": "World"}
 
 
 @app.get("/players", status_code=200)
-def get_players():
+async def get_players():
     """Mock for now"""
     return {"players": ["player1", "player2", "player3"]}
 
 
 @app.get("/player/{player_id}", status_code=200)
-def get_player(player_id: int):
+async def get_player(player_id: int):
     """Mock for now"""
     return {"player": player_id}
 
 
 @app.post("/player", status_code=200)
-def create_player(player: dict):
+async def create_player(player: dict):
     """Mock for now"""
     return player
 
 
 @app.put("/player/{player_id}", status_code=200)
-def update_player(player_id: int, player: dict):
+async def update_player(player_id: int, player: dict):
     """Mock for now"""
     return player
 
 
 @app.delete("/player/{player_id}", status_code=200)
-def delete_player(player_id: int):
+async def delete_player(player_id: int):
     """Mock for now"""
     return {"deleted": player_id}
