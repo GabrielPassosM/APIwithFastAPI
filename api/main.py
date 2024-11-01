@@ -67,7 +67,7 @@ async def get_players() -> list[Player]:
 
 
 @app.get("/players/{player_id}", status_code=200)
-async def get_player(player_id: int) -> Union[Player, None]:
+async def get_player(player_id: int) -> Player | None:
     """Mock for now"""
     player = next(
         (Player(**player) for player in PLAYERS_MOCK if player["id"] == player_id), None
