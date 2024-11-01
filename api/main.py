@@ -1,3 +1,4 @@
+import sys
 from typing import Union
 
 from fastapi import FastAPI
@@ -47,6 +48,11 @@ PLAYERS_MOCK = [
         "image_url": "https://example.com/image.jpg",
     },
 ]
+
+
+@app.get("/status", status_code=200)
+async def status():
+    return {"python_version": sys.version}
 
 
 @app.get("/", status_code=200)
