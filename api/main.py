@@ -2,7 +2,7 @@ import sys
 
 from fastapi import FastAPI
 
-from api.schemas import PlayerBase
+from api.schemas import PlayerBase, PlayerCreate
 
 app = FastAPI(
     title="API made with FastAPI",
@@ -76,7 +76,7 @@ async def get_player(player_id: int) -> PlayerBase | None:
 
 
 @app.post("/player", status_code=200)
-async def create_player(player: PlayerBase):
+async def create_player(player: PlayerCreate) -> int:
     """Mock for now"""
     id = PLAYERS_MOCK[-1]["id"] + 1
     player = player.model_dump()

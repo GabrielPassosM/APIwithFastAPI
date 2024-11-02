@@ -1,6 +1,6 @@
 from enum import Enum
 
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 
 
 class Category(Enum):
@@ -16,3 +16,10 @@ class PlayerBase(BaseModel):
     category: Category
     quantity: int
     image_url: str
+
+
+class PlayerCreate(PlayerBase):
+    @field_validator("category", mode="before")
+    @classmethod
+    def validate_category(cls, value):
+        return value.lower()
