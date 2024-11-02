@@ -96,3 +96,9 @@ async def update_player(player_id: int, player: dict):
 async def delete_player(player_id: int):
     """Mock for now"""
     return {"deleted": player_id}
+
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run(app, host="", port=8000)
