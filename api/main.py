@@ -3,7 +3,7 @@ from typing import Union
 
 from fastapi import FastAPI
 
-from api.schemas import Player
+from api.schemas import PlayerBase
 
 app = FastAPI(
     title="API made with FastAPI",
@@ -50,35 +50,40 @@ PLAYERS_MOCK = [
 ]
 
 
+@app.get("/", status_code=200)
+async def index():
+    return {"Hello": "World"}
+
+
 @app.get("/status", status_code=200)
 async def status():
     return {"python_version": sys.version}
 
 
-@app.get("/", status_code=200)
-async def read_root():
-    return {"Hello": "World"}
-
-
 @app.get("/players", status_code=200)
-async def get_players() -> list[Player]:
+async def get_players() -> list[PlayerBase]:
     """Mock for now"""
-    return [Player(**player) for player in PLAYERS_MOCK]
+    return [PlayerBase(**player) for player in PLAYERS_MOCK]
 
 
 @app.get("/players/{player_id}", status_code=200)
-async def get_player(player_id: int) -> Player | None:
+async def get_player(player_id: int) -> PlayerBase | None:
     """Mock for now"""
     player = next(
-        (Player(**player) for player in PLAYERS_MOCK if player["id"] == player_id), None
+        (PlayerBase(**player) for player in PLAYERS_MOCK if player["id"] == player_id),
+        None,
     )
     return player
 
 
 @app.post("/player", status_code=200)
-async def create_player(player: dict):
+async def create_player(player: PlayerBase):
     """Mock for now"""
-    return player
+    id = PLAYERS_MOCK[-1]["id"] + 1
+    player = player.model_dump()
+    player["id"] = id
+    PLAYERS_MOCK.append(player)
+    return id
 
 
 @app.put("/player/{player_id}", status_code=200)

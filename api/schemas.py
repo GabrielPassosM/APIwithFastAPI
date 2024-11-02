@@ -11,8 +11,7 @@ class Category(Enum):
     CARTOES_VERMELHOS = "cartoes-vermelhos"
 
 
-class Player(BaseModel):
-    id: int
+class PlayerBase(BaseModel):
     name: str
     category: Category
     quantity: int
