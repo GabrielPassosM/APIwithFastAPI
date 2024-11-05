@@ -26,5 +26,5 @@ def test_post_player():
         "image_url": "https://example.com/image.jpg",
     }
     response = client.post("/player", json=data)
-    assert response.status_code == 200
+    assert response.status_code == 201
     assert isinstance(response.json(), int)

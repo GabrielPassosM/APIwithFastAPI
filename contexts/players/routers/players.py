@@ -1,9 +1,9 @@
 from fastapi import APIRouter
 
-from contexts.players.api_schemas import PlayerBase, PlayerCreate
+from contexts.players.routers.api_schemas import PlayerBase, PlayerCreate
 
 
-players_router = APIRouter(tags=["Players"])
+router = APIRouter(tags=["Players"])
 
 """Mock for now"""
 PLAYERS_MOCK = [
@@ -45,13 +45,13 @@ PLAYERS_MOCK = [
 ]
 
 
-@players_router.get("/players", status_code=200)
+@router.get("/players", status_code=200)
 async def get_players() -> list[PlayerBase]:
     """Mock for now"""
     return [PlayerBase(**player) for player in PLAYERS_MOCK]
 
 
-@players_router.get("/players/{player_id}", status_code=200)
+@router.get("/players/{player_id}", status_code=200)
 async def get_player(player_id: int) -> PlayerBase | None:
     """Mock for now"""
     player = next(
@@ -61,7 +61,7 @@ async def get_player(player_id: int) -> PlayerBase | None:
     return player
 
 
-@players_router.post("/player", status_code=200)
+@router.post("/player", status_code=201)
 async def create_player(player: PlayerCreate) -> int:
     """Mock for now"""
     id = PLAYERS_MOCK[-1]["id"] + 1
@@ -71,13 +71,13 @@ async def create_player(player: PlayerCreate) -> int:
     return id
 
 
-@players_router.put("/player/{player_id}", status_code=200)
+@router.put("/player/{player_id}", status_code=200)
 async def update_player(player_id: int, player: dict):
     """Mock for now"""
     return player
 
 
-@players_router.delete("/player/{player_id}", status_code=200)
+@router.delete("/player/{player_id}", status_code=200)
 async def delete_player(player_id: int):
     """Mock for now"""
     return {"deleted": player_id}

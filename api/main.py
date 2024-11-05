@@ -2,7 +2,7 @@ import sys
 
 from fastapi import FastAPI
 
-from contexts.players.resources import players_router
+from contexts.players.routers import players
 
 
 app = FastAPI(
@@ -10,7 +10,7 @@ app = FastAPI(
     version="0.1.0",
 )
 
-app.include_router(players_router)
+app.include_router(players.router)
 
 
 @app.get("/", status_code=200)
