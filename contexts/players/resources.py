@@ -1,11 +1,11 @@
-"""Mock for now"""
 from fastapi import APIRouter
 
-from api.schemas import PlayerBase, PlayerCreate
+from contexts.players.api_schemas import PlayerBase, PlayerCreate
 
 
 players_router = APIRouter(tags=["Players"])
 
+"""Mock for now"""
 PLAYERS_MOCK = [
     {
         "id": 1,
