@@ -1,14 +1,6 @@
-from enum import Enum
-
 from pydantic import BaseModel, field_validator
 
-
-class Category(Enum):
-    ARTILHEIROS = "artilheiros"
-    ASSISTENTES = "assistentes"
-    MVPS = "mvps"
-    CARTOES_AMARELOS = "cartoes-amarelos"
-    CARTOES_VERMELHOS = "cartoes-vermelhos"
+from contexts.players.models import Category
 
 
 class PlayerBase(BaseModel):

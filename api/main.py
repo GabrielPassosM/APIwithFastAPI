@@ -1,13 +1,22 @@
 import sys
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
 from contexts.players.routers import players
+from infra.database import init_db
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    init_db()
+    yield
 
 
 app = FastAPI(
     title="API made with FastAPI",
     version="0.1.0",
+    lifespan=lifespan,
 )
 
 app.include_router(players.router)
