@@ -12,6 +12,8 @@ uvicorn = "^0.32.0"
 pytest = "^8.3.3"
 sqlalchemy = "^2.0.36"
 psycopg2 = "^2.9.10"
+python-dotenv = "^1.0.1"
+sqlmodel = "^0.0.22"
 
 
 [build-system]
