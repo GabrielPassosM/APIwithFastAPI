@@ -4,5 +4,5 @@ class PydanticConversor:
         yield cls.validate
 
     @classmethod
-    def validate(cls, v):
+    def validate(cls, v, field=None):
         return cls(v)

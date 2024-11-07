@@ -14,7 +14,7 @@ class Category(Enum):
 
 
 class Player(SQLModel, table=True):
-    id: BaseUUID = Field(default=None, primary_key=True)
+    id: BaseUUID = Field(default_factory=BaseUUID, primary_key=True)
     name: str
     category: Category
     quantity: int
