@@ -22,9 +22,9 @@ def test_get_players():
 def test_post_player():
     data = {
         "name": "Player X",
-        "category": "assistentes",
-        "quantity": 10,
+        "position": "goalkeeper",
         "image_url": "https://example.com/image.jpg",
+        "red_cards": 1,
     }
     response = client.post("/player", json=data)
     assert response.status_code == 201

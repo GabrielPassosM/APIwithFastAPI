@@ -1,17 +1,13 @@
 import os
 
 from dotenv import load_dotenv
-from sqlmodel import SQLModel, create_engine, Session
+from sqlmodel import create_engine, Session
 
 load_dotenv()
 
 database_url = os.getenv("DATABASE_URL")
 
 engine = create_engine(database_url)
-
-
-def init_db():
-    SQLModel.metadata.create_all(engine)
 
 
 # TODO make async

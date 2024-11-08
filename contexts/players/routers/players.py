@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlmodel import Session, select
 
 from contexts.players.models import Player
-from contexts.players.routers.api_schemas import PlayerBase, PlayerCreate
+from contexts.players.routers.api_schemas import PlayerCreate
 from infra.database import get_session
 from libs.base_types.uuid import BaseUUID
 
@@ -47,10 +47,16 @@ async def update_player(
     player = session.exec(select(Player).where(Player.id == player_id)).first()
     if not player:
         return None
+
+    # TODO do better
     player.name = player_info.name
-    player.category = player_info.category
-    player.quantity = player_info.quantity
+    player.position = player_info.position
     player.image_url = player_info.image_url
+    player.goals = player_info.goals
+    player.assists = player_info.assists
+    player.mvps = player_info.mvps
+    player.yellow_cards = player_info.yellow_cards
+    player.red_cards = player_info.red_cards
     session.commit()
     session.refresh(player)
     return player

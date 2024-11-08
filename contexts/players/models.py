@@ -5,17 +5,20 @@ from sqlmodel import SQLModel, Field
 from libs.base_types.uuid import BaseUUID
 
 
-class Category(Enum):
-    ARTILHEIROS = "artilheiros"
-    ASSISTENTES = "assistentes"
-    MVPS = "mvps"
-    CARTOES_AMARELOS = "cartoes-amarelos"
-    CARTOES_VERMELHOS = "cartoes-vermelhos"
+class PlayerPosition(Enum):
+    GOALKEEPER = "goalkeeper"
+    DEFENDER = "defender"
+    MIDFIELDER = "midfielder"
+    FORWARD = "forward"
 
 
 class Player(SQLModel, table=True):
     id: BaseUUID = Field(default_factory=BaseUUID, primary_key=True)
     name: str
-    category: Category
-    quantity: int
-    image_url: str
+    position: PlayerPosition
+    image_url: str = Field(nullable=True, default=None)
+    goals: int = Field(default=0)
+    assists: int = Field(default=0)
+    mvps: int = Field(default=0)
+    yellow_cards: int = Field(default=0)
+    red_cards: int = Field(default=0)

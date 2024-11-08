@@ -1,17 +1,21 @@
 from pydantic import BaseModel, field_validator
 
-from contexts.players.models import Category
+from contexts.players.models import PlayerPosition
 
 
-class PlayerBase(BaseModel):
+class _PlayerBase(BaseModel):
     name: str
-    category: Category
-    quantity: int
-    image_url: str
+    position: PlayerPosition
+    image_url: str = None
+    goals: int = 0
+    assists: int = 0
+    mvps: int = 0
+    yellow_cards: int = 0
+    red_cards: int = 0
 
 
-class PlayerCreate(PlayerBase):
-    @field_validator("category", mode="before")
+class PlayerCreate(_PlayerBase):
+    @field_validator("position", mode="before")
     @classmethod
-    def validate_category(cls, value):
+    def validate_position(cls, value):
         return value.lower()
