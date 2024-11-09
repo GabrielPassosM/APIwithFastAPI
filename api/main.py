@@ -23,9 +23,11 @@ def _run_migration():
     command.upgrade(alembic_cfg, "head")
 
 
-# TODO add password to this endpoint
-@app.post("/run-migration", status_code=200)
-async def run_db_migration():
+@app.post("/run-migration/{password}", status_code=200)
+async def run_db_migration(password: str):
+    if password != os.getenv("MIGRATION_PWD"):
+        raise HTTPException(status_code=401, detail="Invalid password")
+
     try:
         _run_migration()
         return {"message": "Migration applied successfully"}
