@@ -10,7 +10,7 @@ from sqlmodel import SQLModel
 from alembic import context
 
 # Adiciona o diretório raiz do projeto ao sys.path
-sys.path.append(os.path.join(os.path.dirname(__file__), '../../'))
+sys.path.append(os.path.join(os.path.dirname(__file__), "../../"))
 
 from contexts.players.models import Player
 
@@ -77,9 +77,7 @@ def run_migrations_online() -> None:
     )
 
     with connectable.connect() as connection:
-        context.configure(
-            connection=connection, target_metadata=target_metadata
-        )
+        context.configure(connection=connection, target_metadata=target_metadata)
 
         with context.begin_transaction():
             context.run_migrations()
