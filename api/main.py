@@ -4,6 +4,7 @@ import sys
 from alembic import command
 from alembic.config import Config
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 
 from contexts.players.routers import players
 
@@ -14,6 +15,18 @@ app = FastAPI(
 )
 
 app.include_router(players.router)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:3000",
+        "https://tribunata-git-staging-gabriel-martins-projects-3f4ed294.vercel.app",
+        "https://tribunata.vercel.app",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 def _run_migration():

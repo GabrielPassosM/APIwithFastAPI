@@ -8,6 +8,7 @@ client = TestClient(app)
 
 load_dotenv()
 
+
 def test_run_migration():
     response = client.post(f"/run-migration/{os.getenv('MIGRATION_PWD')}")
     assert response.status_code == 200
