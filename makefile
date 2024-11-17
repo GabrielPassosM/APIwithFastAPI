@@ -20,8 +20,9 @@ wait-for-pg:
 run-migrations: services-up wait-for-pg
 	alembic -c infra/alembic.ini upgrade head
 
-run-project: services-up run-migrations
+run-project: run-migrations
 	fastapi dev ./api/main.py
 
-run-tests:
+run-tests: run-migrations
 	pytest ./tests
+	make services-down
