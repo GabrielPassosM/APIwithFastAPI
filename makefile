@@ -14,7 +14,13 @@ services-stop:
 services-logs:
 	docker compose -f infra/compose.yaml logs -f
 
-run-project: services-up
+wait-for-pg:
+	python3 infra/scripts/wait_for_pg.py
+
+run-migrations: services-up wait-for-pg
+	alembic -c infra/alembic.ini upgrade head
+
+run-project: services-up run-migrations
 	fastapi dev ./api/main.py
 
 run-tests:
