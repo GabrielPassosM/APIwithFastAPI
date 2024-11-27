@@ -30,12 +30,12 @@ async def get_player(
 async def create_player(
     player_info: PlayerCreate,
     session: Session = Depends(get_session),
-) -> BaseUUID:
+) -> Player:
     player = Player(**player_info.model_dump())
     session.add(player)
     session.commit()
     session.refresh(player)
-    return player.id
+    return player
 
 
 @router.put("/player/{player_id}", status_code=200)

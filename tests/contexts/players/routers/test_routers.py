@@ -28,5 +28,5 @@ def test_post_player():
     }
     response = client.post("/player", json=data)
     assert response.status_code == 201
-    assert isinstance(response.json(), str)
-    BaseUUID(response.json())
+    assert isinstance(response.json(), dict)
+    assert "id" in response.json()
