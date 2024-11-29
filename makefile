@@ -23,6 +23,6 @@ run-migrations: services-up wait-for-pg
 run-project: run-migrations
 	fastapi dev ./api/main.py
 
-run-tests: run-migrations
+run-tests: services-up wait-for-pg
 	pytest ./tests
 	make services-down
