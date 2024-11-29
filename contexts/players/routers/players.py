@@ -48,15 +48,15 @@ async def update_player(
     if not player:
         return None
 
-    # TODO do better
-    player.name = player_info.name
-    player.position = player_info.position
-    player.image_url = player_info.image_url
-    player.goals = player_info.goals
-    player.assists = player_info.assists
-    player.mvps = player_info.mvps
-    player.yellow_cards = player_info.yellow_cards
-    player.red_cards = player_info.red_cards
+    player_info: dict = player_info.model_dump()
+
+    # check if there is any change
+    if all(getattr(player, campo) == valor for campo, valor in player_info.items()):
+        return
+
+    for campo, valor in player_info.items():
+        setattr(player, campo, valor)
+
     session.commit()
     session.refresh(player)
     return player
