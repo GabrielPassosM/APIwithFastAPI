@@ -26,3 +26,8 @@ class PlayerCreate(_PlayerBase):
     @classmethod
     def validate_position(cls, value):
         return value.lower()
+
+    @field_validator("image_url", mode="before")
+    @classmethod
+    def validate_image_url(cls, value):
+        return value or DEFAULT_IMAGE_URL
