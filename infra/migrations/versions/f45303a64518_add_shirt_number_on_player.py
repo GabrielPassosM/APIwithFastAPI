@@ -21,8 +21,13 @@ depends_on: Union[str, Sequence[str], None] = None
 
 
 def upgrade() -> None:
-    op.add_column("player", sa.Column("shirt_number", sa.Integer(), nullable=False))
+    op.add_column(
+        "player",
+        sa.Column("shirt_number", sa.Integer(), server_default="0", nullable=False),
+    )
+    op.alter_column("player", "shirt_number", server_default=None)
 
 
 def downgrade() -> None:
-    op.drop_column("player", "shirt_number")
+    # Never down always up
+    pass
