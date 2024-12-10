@@ -20,8 +20,10 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:3000",
+        "http://localhost:4173",
         "https://tribunata-git-staging-gabriel-martins-projects-3f4ed294.vercel.app",
         "https://tribunata.vercel.app",
+        "https://tribunata-v2.vercel.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],
