@@ -15,6 +15,7 @@ class PlayerPosition(Enum):
 class Player(SQLModel, table=True):
     id: BaseUUID = Field(default_factory=BaseUUID, primary_key=True)
     name: str
+    shirt_number: int = Field(default=0)
     position: PlayerPosition
     image_url: str = Field(nullable=True, default=None)
     goals: int = Field(default=0)
