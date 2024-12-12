@@ -26,6 +26,7 @@ def test_post_player():
     data = {
         "name": "Player X",
         "position": "goalkeeper",
+        "shirt_number": 1,
         "image_url": "https://example.com/image.jpg",
         "red_cards": 1,
     }
@@ -46,6 +47,7 @@ def test_update_player():
     data = {
         "name": player.name,
         "position": player.position.value,
+        "shirt_number": 10,
         "goals": 99,
         "assists": 70,
         "red_cards": 1,
