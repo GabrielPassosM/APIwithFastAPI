@@ -68,3 +68,35 @@ def test_update_player():
     response = client.put(f"/player/{str(player.id)}", json=data)
     assert response.status_code == 200
     assert response.json() is None
+
+
+def test_increment_player_stats():
+    with TestingSessionLocal() as session:
+        player = Player(
+            name="Lionel Messi",
+            position=PlayerPosition.FORWARD,
+            goals=1,
+            assists=1,
+            mvps=1,
+            yellow_cards=1,
+            red_cards=1,
+        )
+        session.add(player)
+        session.commit()
+        session.refresh(player)
+
+    data = {
+        "goals": 1,
+        "assists": 1,
+        "mvps": 1,
+        "yellow_cards": 1,
+        "red_cards": 1,
+    }
+
+    response = client.put(f"/player/increment/{str(player.id)}", json=data)
+    assert response.status_code == 200
+    assert response.json()["goals"] == 2
+    assert response.json()["assists"] == 2
+    assert response.json()["mvps"] == 2
+    assert response.json()["yellow_cards"] == 2
+    assert response.json()["red_cards"] == 2

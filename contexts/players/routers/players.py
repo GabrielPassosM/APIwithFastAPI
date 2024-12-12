@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlmodel import Session, select
 
 from contexts.players.models import Player
-from contexts.players.routers.api_schemas import PlayerCreate
+from contexts.players.routers.api_schemas import PlayerCreate, PlayerIncrementStats
 from infra.database import get_session
 from libs.base_types.uuid import BaseUUID
 
@@ -56,6 +56,25 @@ async def update_player(
 
     for campo, valor in player_info.items():
         setattr(player, campo, valor)
+
+    session.commit()
+    session.refresh(player)
+    return player
+
+
+@router.put("/player/increment/{player_id}", status_code=200)
+async def increment_player_stats(
+    player_id: BaseUUID,
+    increment_info: PlayerIncrementStats,
+    session: Session = Depends(get_session),
+) -> Player | None:
+    player = session.exec(select(Player).where(Player.id == player_id)).first()
+    if not player:
+        return None
+
+    increment_info: dict = increment_info.model_dump()
+    for campo, valor in increment_info.items():
+        setattr(player, campo, getattr(player, campo) + valor)
 
     session.commit()
     session.refresh(player)

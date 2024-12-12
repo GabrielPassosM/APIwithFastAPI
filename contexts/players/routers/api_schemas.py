@@ -10,16 +10,19 @@ DEFAULT_IMAGE_URL: Final = (
 )
 
 
-class _PlayerBase(BaseModel):
-    name: str
-    position: PlayerPosition
-    shirt_number: PositiveNumber
-    image_url: str = DEFAULT_IMAGE_URL
+class _PlayerStats(BaseModel):
     goals: PositiveNumber = 0
     assists: PositiveNumber = 0
     mvps: PositiveNumber = 0
     yellow_cards: PositiveNumber = 0
     red_cards: PositiveNumber = 0
+
+
+class _PlayerBase(_PlayerStats):
+    name: str
+    position: PlayerPosition
+    shirt_number: PositiveNumber
+    image_url: str = DEFAULT_IMAGE_URL
 
 
 class PlayerCreate(_PlayerBase):
@@ -32,3 +35,7 @@ class PlayerCreate(_PlayerBase):
     @classmethod
     def validate_image_url(cls, value):
         return value or DEFAULT_IMAGE_URL
+
+
+class PlayerIncrementStats(_PlayerStats):
+    pass
