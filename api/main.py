@@ -3,11 +3,14 @@ import sys
 
 from alembic import command
 from alembic.config import Config
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy import text
+from sqlalchemy.exc import OperationalError
+from sqlmodel import Session
 
 from contexts.players.routers import players
-
+from infra.database import get_session
 
 app = FastAPI(
     title="API made with FastAPI",
@@ -56,8 +59,25 @@ async def index():
 
 
 @app.get("/status", status_code=200)
-async def status():
-    return {"python_version": sys.version}
+async def status(session: Session = Depends(get_session)):
+    db_status = await _check_db_connection(session)
+    return {
+        "python_version": sys.version,
+        "db_status": db_status,
+    }
+
+
+@app.get("/database-check")
+async def database_check(session: Session = Depends(get_session)):
+    return await _check_db_connection(session)
+
+
+async def _check_db_connection(session: Session) -> dict:
+    try:
+        session.exec(text("SELECT 1"))
+    except OperationalError:
+        return {"status": "waiting connection"}
+    return {"status": "ready"}
 
 
 if __name__ == "__main__":
