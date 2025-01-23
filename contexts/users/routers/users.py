@@ -14,19 +14,27 @@ router = APIRouter(tags=["Users"])
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
-@router.get("/users", status_code=200)
+@router.get("/users/{api_secret}", status_code=200)
 async def get_users(
+    api_secret: str,
     session: Session = Depends(get_session),
 ) -> list[User]:
+    if api_secret != os.getenv("USER_API_SECRET"):
+        raise HTTPException(status_code=401, detail="Invalid api secret")
+
     users = session.exec(select(User)).all()
     return users
 
 
-@router.get("/users/{user_id}", status_code=200)
+@router.get("/users/{user_id}/{api_secret}", status_code=200)
 async def get_user(
     user_id: BaseUUID,
+    api_secret: str,
     session: Session = Depends(get_session),
 ) -> User | None:
+    if api_secret != os.getenv("USER_API_SECRET"):
+        raise HTTPException(status_code=401, detail="Invalid api secret")
+
     user = session.exec(select(User).where(User.id == user_id)).first()
     return user
 
@@ -48,11 +56,15 @@ async def create_user(
     return user
 
 
-@router.delete("/user/{user_id}", status_code=200)
+@router.delete("/user/{user_id}/{api_secret}", status_code=200)
 async def delete_user(
     user_id: BaseUUID,
+    api_secret: str,
     session: Session = Depends(get_session),
 ) -> None:
+    if api_secret != os.getenv("USER_API_SECRET"):
+        raise HTTPException(status_code=401, detail="Invalid api secret")
+
     user = session.exec(select(User).where(User.id == user_id)).first()
     if not user:
         return None
