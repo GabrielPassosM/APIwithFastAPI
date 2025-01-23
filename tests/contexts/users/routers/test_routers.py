@@ -17,6 +17,6 @@ def test_post_user():
 
 
 def test_get_users():
-    response = client.get("/users")
+    response = client.get(f"/users/{os.getenv('USER_API_SECRET')}")
     assert response.status_code == 200
     assert isinstance(response.json(), list)

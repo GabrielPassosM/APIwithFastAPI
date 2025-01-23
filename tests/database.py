@@ -1,5 +1,6 @@
 import os
 
+import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlmodel import SQLModel, Session
@@ -14,6 +15,12 @@ TestingSessionLocal = sessionmaker(
 
 
 def init_test_db():
+    SQLModel.metadata.create_all(engine)
+
+
+@pytest.fixture(autouse=True)
+def clean_db():
+    SQLModel.metadata.drop_all(engine)
     SQLModel.metadata.create_all(engine)
 
 

@@ -14,21 +14,20 @@ def test_get_players():
     assert isinstance(response.json(), list)
 
 
-# TODO fix this test
-# def test_get_player():
-#     # hardcoded player id mock for now
-#     response = client.get("/players/1")
-#     assert response.status_code == 200
-#     assert response.json()["name"] == "player1"
+def test_get_player(mock_player):
+    response = client.get(f"/players/{str(mock_player.id)}")
+    assert response.status_code == 200
+    assert response.json()["name"] == "Teste"
 
 
-def test_post_player():
+def test_post_player(mock_user):
     data = {
         "name": "Player X",
         "position": "goalkeeper",
         "shirt_number": 1,
         "image_url": "https://example.com/image.jpg",
         "red_cards": 1,
+        "user_id": str(mock_user.id),
     }
     response = client.post("/player", json=data)
     assert response.status_code == 201
@@ -70,7 +69,7 @@ def test_update_player():
     assert response.json() is None
 
 
-def test_increment_player_stats():
+def test_increment_player_stats(mock_user):
     with TestingSessionLocal() as session:
         player = Player(
             name="Lionel Messi",
@@ -91,6 +90,7 @@ def test_increment_player_stats():
         "mvps": 1,
         "yellow_cards": 1,
         "red_cards": 1,
+        "user_id": str(mock_user.id),
     }
 
     response = client.put(f"/player/increment/{str(player.id)}", json=data)

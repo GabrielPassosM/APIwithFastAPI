@@ -72,6 +72,7 @@ async def update_player(
         return None
 
     player_info: dict = player_info.model_dump()
+    del player_info["user_id"]
 
     # check if there is any change
     if all(getattr(player, campo) == valor for campo, valor in player_info.items()):
