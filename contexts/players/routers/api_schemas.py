@@ -4,10 +4,15 @@ from pydantic import BaseModel, field_validator
 
 from contexts.players.models import PlayerPosition
 from libs.base_types.numbers import PositiveNumber
+from libs.base_types.uuid import BaseUUID
 
 DEFAULT_IMAGE_URL: Final = (
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKu1w7TulWMUKGszjJlb7PDtn0LVSJgGnrog&s"
 )
+
+
+class _UserRequired:
+    user_id: BaseUUID = None
 
 
 class _PlayerStats(BaseModel):
@@ -25,7 +30,7 @@ class _PlayerBase(_PlayerStats):
     image_url: str = DEFAULT_IMAGE_URL
 
 
-class PlayerCreate(_PlayerBase):
+class PlayerCreate(_PlayerBase, _UserRequired):
     @field_validator("position", mode="before")
     @classmethod
     def validate_position(cls, value):
@@ -37,5 +42,5 @@ class PlayerCreate(_PlayerBase):
         return value or DEFAULT_IMAGE_URL
 
 
-class PlayerIncrementStats(_PlayerStats):
+class PlayerIncrementStats(_PlayerStats, _UserRequired):
     pass
