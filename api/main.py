@@ -10,7 +10,7 @@ from sqlalchemy.exc import OperationalError
 from sqlmodel import Session
 
 from contexts.players.routers import players
-from contexts.users.routers import users
+from contexts.users.routers import users, login
 from infra.database import get_session
 
 app = FastAPI(
@@ -20,6 +20,7 @@ app = FastAPI(
 
 app.include_router(players.router)
 app.include_router(users.router)
+app.include_router(login.router)
 
 app.add_middleware(
     CORSMiddleware,
