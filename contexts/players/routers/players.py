@@ -8,6 +8,7 @@ from contexts.players.routers.api_schemas import PlayerCreate, PlayerIncrementSt
 from contexts.users.models import User
 from infra.database import get_session
 from libs.base_types.uuid import BaseUUID
+from libs.datetime import utcnow
 from libs.exceptions.basis_exception import BasisException
 
 
@@ -80,6 +81,7 @@ async def update_player(
 
     for campo, valor in player_info.items():
         setattr(player, campo, valor)
+    player.updated_at = utcnow()
 
     session.commit()
     session.refresh(player)
@@ -102,6 +104,7 @@ async def increment_player_stats(
     del increment_info["user_id"]
     for campo, valor in increment_info.items():
         setattr(player, campo, getattr(player, campo) + valor)
+    player.updated_at = utcnow()
 
     session.commit()
     session.refresh(player)

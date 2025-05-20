@@ -1,8 +1,11 @@
+from datetime import datetime, timezone
 from enum import Enum
 
+from sqlalchemy import DateTime
 from sqlmodel import SQLModel, Field
 
 from libs.base_types.uuid import BaseUUID
+from libs.datetime import utcnow
 
 
 class PlayerPosition(Enum):
@@ -23,3 +26,9 @@ class Player(SQLModel, table=True):
     mvps: int = Field(default=0)
     yellow_cards: int = Field(default=0)
     red_cards: int = Field(default=0)
+
+    updated_at: datetime = Field(
+        nullable=True,
+        default_factory=utcnow,
+        sa_type=DateTime(timezone=True),
+    )
